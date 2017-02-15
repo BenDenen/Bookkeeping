@@ -1,0 +1,31 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+apply plugin: 'com.github.ben-manes.versions'
+
+buildscript {
+    apply from: 'gradle/config.gradle'
+
+    repositories {
+        jcenter()
+        maven { url "https://plugins.gradle.org/m2/" }
+    }
+
+    dependencies {
+        classpath gradlePlugins.android
+        classpath gradlePlugins.bintray
+        classpath gradlePlugins.maven
+        classpath gradlePlugins.license
+        classpath gradlePlugins.apt
+        classpath gradlePlugins.retrolambda
+        classpath gradlePlugins.versions
+    }
+}
+
+allprojects {
+    repositories {
+        jcenter()
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
