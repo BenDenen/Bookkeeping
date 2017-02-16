@@ -1,11 +1,8 @@
 package com.borisdenisenko.bookkeeping.mainscreen.domain;
 
+import com.borisdenisenko.bookkeeping.gateway.WebSiteDataRepository;
 import com.borisdenisenko.rxviper.Interactor;
 
-import java.util.Collection;
-
-import okhttp3.ResponseBody;
-import retrofit2.Retrofit;
 import rx.Observable;
 import rx.Scheduler;
 
@@ -13,23 +10,18 @@ import rx.Scheduler;
  * Created by bdenisenko on 16.02.2017.
  */
 
-public class DownloadWebContentUserCase extends Interactor<Collection<String>, Collection<ResponseBody>> {
-    private final Retrofit.Builder mBuilder;
+public class DownloadWebContentUserCase extends Interactor<String, WebContentViewModel> {
+    private final WebSiteDataRepository mRepository;
+    private final WebContentMapper mMapper;
 
-    public DownloadWebContentUserCase(Scheduler subscribeOn, Scheduler observeOn, Retrofit.Builder builder) {
+    public DownloadWebContentUserCase(Scheduler subscribeOn, Scheduler observeOn, WebSiteDataRepository repository, WebContentMapper mapper) {
         super(subscribeOn, observeOn);
-        this.mBuilder = builder;
-        this.mapper = mapper;
+        this.mRepository = repository;
+        this.mMapper = mapper;
     }
 
     @Override
-    protected Observable<Collection<ResponseBody>> createObservable(Integer amount) {
-        return storage.getCheeses(amount)
-                .map(mapper::map);
-    }
-
-    @Override
-    protected Observable<Collection<ResponseBody>> createObservable(Collection<String> strings) {
-        return null;
+    protected Observable<WebContentViewModel> createObservable(String webSiteUrl) {
+        return mRepository.downloadWebContent(webSiteUrl).map(mMapper::map);
     }
 }

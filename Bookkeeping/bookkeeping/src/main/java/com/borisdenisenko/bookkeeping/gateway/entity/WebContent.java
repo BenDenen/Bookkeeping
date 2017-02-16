@@ -8,16 +8,16 @@ public class WebContent {
 
     private final String mWebAddress;
     private final String mFilePath;
-    private final int mStatusCode;
+    private final boolean isError;
 
-    public WebContent(String webAddress, String filePath, int statusCode) {
+    public WebContent(String webAddress, String filePath, boolean error) {
         mWebAddress = webAddress;
         mFilePath = filePath;
-        mStatusCode = statusCode;
+        isError = error;
     }
 
     public WebContent(String webAddress) {
-        this(webAddress, null, -1);
+        this(webAddress, null, true);
     }
 
     public String getWebAddress() {
@@ -26,5 +26,9 @@ public class WebContent {
 
     public String getFilePath() {
         return mFilePath;
+    }
+
+    public boolean isError() {
+        return isError;
     }
 }

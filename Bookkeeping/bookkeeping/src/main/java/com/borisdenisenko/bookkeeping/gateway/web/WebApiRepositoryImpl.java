@@ -1,6 +1,5 @@
 package com.borisdenisenko.bookkeeping.gateway.web;
 
-import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -35,7 +34,7 @@ public class WebApiRepositoryImpl implements WebSiteDataRepository {
 
     private final DownloadService mDownloadService;
 
-    WebApiRepositoryImpl() {
+    public WebApiRepositoryImpl() {
         Retrofit retrofit = new Retrofit.Builder().build();
         mDownloadService = retrofit.create(DownloadService.class);
     }
@@ -53,7 +52,7 @@ public class WebApiRepositoryImpl implements WebSiteDataRepository {
                 return new WebContent(webSitesUrl);
             }
             File downloadedFile = writeResponseBodyToDisk(response.body(), FileUtils.getFileForSite(webSitesUrl));
-            return new WebContent(webSitesUrl, downloadedFile.getAbsolutePath(), response.code());
+            return new WebContent(webSitesUrl, downloadedFile.getAbsolutePath(), (response.code() >= 200) && (response.code() < 300));
         } catch (IOException e) {
             // No Internet
             return new WebContent(webSitesUrl);

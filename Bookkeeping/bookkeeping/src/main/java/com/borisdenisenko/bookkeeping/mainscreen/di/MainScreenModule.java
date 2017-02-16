@@ -3,14 +3,16 @@ package com.borisdenisenko.bookkeeping.mainscreen.di;
 import com.borisdenisenko.bookkeeping.Job;
 import com.borisdenisenko.bookkeeping.Main;
 import com.borisdenisenko.bookkeeping.gateway.RepositoryModule;
-import com.borisdenisenko.bookkeeping.gateway.web.RetrofitModule;
+import com.borisdenisenko.bookkeeping.gateway.WebSiteDataRepository;
 import com.borisdenisenko.bookkeeping.mainscreen.MainActivity;
+import com.borisdenisenko.bookkeeping.mainscreen.domain.DownloadWebContentUserCase;
+import com.borisdenisenko.bookkeeping.mainscreen.domain.WebContentMapper;
+import com.borisdenisenko.bookkeeping.mainscreen.presenter.MainScreenPresenter;
 import com.borisdenisenko.bookkeeping.mainscreen.router.MainScreenRouter;
 import com.borisdenisenko.bookkeeping.mainscreen.router.MainScreenRouterImpl;
 
 import dagger.Module;
 import dagger.Provides;
-import retrofit2.Retrofit;
 import rx.Scheduler;
 
 /**
@@ -32,21 +34,21 @@ public final class MainScreenModule {
 
     @Provides
     @MainScreenScope
-    static GetCheesesInteractor provideGetCheeseInteractor(@Job Scheduler jobScheduler, @Main Scheduler mainScheduler,
-                                                           Retrofit.Builder builder, CheeseMapper mapper) {
-        return new GetCheesesInteractor(jobScheduler, mainScheduler, storage, mapper);
+    static DownloadWebContentUserCase provideDownloadWebContentUserCase(@Job Scheduler jobScheduler, @Main Scheduler mainScheduler,
+                                                                        WebSiteDataRepository repository, WebContentMapper mapper) {
+        return new DownloadWebContentUserCase(jobScheduler, mainScheduler, repository, mapper);
     }
 
     @Provides
     @MainScreenScope
-    static CheeseMapper provideCheeseMapper() {
-        return new CheeseMapper();
+    static WebContentMapper provideWebContentMapper() {
+        return new WebContentMapper();
     }
 
     @Provides
     @MainScreenScope
-    static MainPresenter provideMainPresenter(GetCheesesInteractor interactor) {
-        return new MainPresenter(interactor);
+    static MainScreenPresenter provideMainPresenter(DownloadWebContentUserCase interactor) {
+        return new MainScreenPresenter(interactor);
     }
 }
 

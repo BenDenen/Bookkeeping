@@ -10,6 +10,8 @@ public class WebContentViewModel {
     private final String mFilePath;
 
     private boolean isDownloaded;
+    private boolean isError;
+
 
     public WebContentViewModel(String webAddress, String filePath) {
         mWebAddress = webAddress;
@@ -30,5 +32,13 @@ public class WebContentViewModel {
 
     public void setDownloaded(boolean downloaded) {
         isDownloaded = downloaded;
+    }
+
+    public boolean isError() {
+        return isError;
+    }
+
+    public void setError(boolean error) {
+        isError = error;
     }
 }
