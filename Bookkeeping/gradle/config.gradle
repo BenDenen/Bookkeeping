@@ -18,8 +18,8 @@ apply from: 'gradle/properties.gradle'
 ext {
     androidConfig = [
             compileSdkVersion: 24,
-            buildToolsVersion: '24.0.3',
-            minSdkVersion    : 15,
+            buildToolsVersion: '25.0.1',
+            minSdkVersion    : 9,
             targetSdkVersion : 24,
             versionCode      : 1,
             versionName      : POM_APPLICATION_VERSION,
@@ -31,7 +31,7 @@ ext {
 
     versions = [
             // Gradle Plugins
-            androidPlugin    : '2.2.3',
+            androidPlugin    : '2.2.2',
             bintrayPlugin    : '1.7.3',
             mavenPlugin      : '1.4.1',
             licensePlugin    : '0.12.1',

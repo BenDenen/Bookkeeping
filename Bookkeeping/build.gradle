@@ -11,7 +11,6 @@ buildscript {
 
     dependencies {
         classpath gradlePlugins.android
-        classpath gradlePlugins.bintray
         classpath gradlePlugins.maven
         classpath gradlePlugins.license
         classpath gradlePlugins.apt
@@ -24,8 +23,13 @@ allprojects {
     repositories {
         jcenter()
     }
+    apply plugin: 'idea'
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.14.1'
 }
