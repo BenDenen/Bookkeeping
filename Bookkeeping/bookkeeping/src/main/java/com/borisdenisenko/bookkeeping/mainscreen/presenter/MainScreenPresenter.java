@@ -11,9 +11,9 @@ import com.borisdenisenko.rxviper.ViperPresenter;
 
 public class MainScreenPresenter extends ViperPresenter<MainViewCallbacks, MainScreenRouter> {
 
-    private final DownloadWebContentUserCase interactor;
+    private final DownloadWebContentUserCase mInteractor;
 
     public MainScreenPresenter(DownloadWebContentUserCase downloadWebContentUserCase) {
-        interactor = downloadWebContentUserCase;
+        mInteractor = downloadWebContentUserCase;
     }
 }

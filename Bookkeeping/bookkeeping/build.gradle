@@ -48,4 +48,6 @@ dependencies {
     compile libraries.annotations
     compile libraries.retrofit
     testCompile libraries.junit
+    testCompile libraries.mockito
+    testCompile libraries.truth
 }
