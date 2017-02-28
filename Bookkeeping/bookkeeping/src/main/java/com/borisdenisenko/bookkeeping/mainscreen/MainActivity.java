@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import com.borisdenisenko.bookkeeping.R;
+import com.borisdenisenko.bookkeeping.WebContentApplication;
 import com.borisdenisenko.bookkeeping.databinding.ActivityMainBinding;
 import com.borisdenisenko.bookkeeping.mainscreen.di.MainScreenModule;
 import com.borisdenisenko.bookkeeping.mainscreen.di.MainScreenSubcomponent;
@@ -19,6 +20,7 @@ public class MainActivity extends AppCompatActivity implements MainViewCallbacks
     private MainScreenModule mModule;
     private MainScreenSubcomponent mSubcomponent;
     private MainScreenPresenter mPresenter;
+    private MainScreenRouter mRouter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +28,21 @@ public class MainActivity extends AppCompatActivity implements MainViewCallbacks
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
         mHolder = (ScopeHolder) getLastCustomNonConfigurationInstance();
+
+        if (mHolder == null) {
+            mModule = new MainScreenModule();
+            mSubcomponent = ((WebContentApplication) getApplication()).getComponent()
+                    .plus(mModule);
+            mHolder = new ScopeHolder(mModule, mSubcomponent);
+        } else {
+            mModule = mHolder.module;
+            mSubcomponent = mHolder.subcomponent;
+        }
+
+        mModule.setMainActivity(this);
+        mSubcomponent.inject(this);
+        mPresenter = mSubcomponent.mainPresenter();
+        mRouter = mSubcomponent.mainRouter();
     }
 
     @Override
