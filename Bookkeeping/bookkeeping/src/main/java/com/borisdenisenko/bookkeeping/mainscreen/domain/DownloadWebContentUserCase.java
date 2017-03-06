@@ -1,5 +1,7 @@
 package com.borisdenisenko.bookkeeping.mainscreen.domain;
 
+import android.util.Log;
+
 import com.borisdenisenko.bookkeeping.gateway.WebSiteDataRepository;
 import com.borisdenisenko.rxviper.Interactor;
 

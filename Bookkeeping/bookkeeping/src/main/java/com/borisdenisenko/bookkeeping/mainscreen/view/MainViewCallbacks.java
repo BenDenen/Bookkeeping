@@ -13,4 +13,6 @@ public interface MainViewCallbacks extends ViewCallbacks {
     void showError();
 
     void showProgress();
+
+    void showHttpState(boolean isSuccess);
 }

@@ -15,8 +15,8 @@ public class FileUtils {
     private FileUtils() {
     }
 
-    public static File getFileForSite(String siteUrl) {
-        return new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), siteUrl + FILE_EXT);
+    public static File getFileForSite() {
+        return new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), String.valueOf(System.currentTimeMillis()) + FILE_EXT);
     }
 
 }

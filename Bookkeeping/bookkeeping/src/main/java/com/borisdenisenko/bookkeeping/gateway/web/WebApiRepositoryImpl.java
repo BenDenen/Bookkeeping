@@ -2,6 +2,7 @@ package com.borisdenisenko.bookkeeping.gateway.web;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.WorkerThread;
 import android.util.Log;
 
 import com.borisdenisenko.bookkeeping.gateway.WebSiteDataRepository;
@@ -22,8 +23,6 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import rx.Observable;
 
-import static rx.Observable.just;
-
 /**
  * Created by bdenisenko on 16.02.2017.
  */
@@ -35,15 +34,16 @@ public class WebApiRepositoryImpl implements WebSiteDataRepository {
     private final DownloadService mDownloadService;
 
     public WebApiRepositoryImpl() {
-        Retrofit retrofit = new Retrofit.Builder().build();
+        Retrofit retrofit = new Retrofit.Builder().baseUrl("https://google.com").build();
         mDownloadService = retrofit.create(DownloadService.class);
     }
 
     @Override
     public Observable<WebContent> downloadWebContent(@NonNull String webSitesUrl) {
-        return just(getWebContent(webSitesUrl));
+        return Observable.create(subscriber -> subscriber.onNext(getWebContent(webSitesUrl)));
     }
 
+    @WorkerThread
     private WebContent getWebContent(String webSitesUrl) {
         Call<ResponseBody> call = mDownloadService.downloadWebContent(webSitesUrl);
         try {
@@ -51,10 +51,16 @@ public class WebApiRepositoryImpl implements WebSiteDataRepository {
             if (response == null || response.body() == null) {
                 return new WebContent(webSitesUrl);
             }
-            File downloadedFile = writeResponseBodyToDisk(response.body(), FileUtils.getFileForSite(webSitesUrl));
+            File downloadedFile = FileUtils.getFileForSite();
+            if (!downloadedFile.createNewFile()) {
+                Log.e(TAG, "Can not create file");
+                return new WebContent(webSitesUrl);
+            }
+            downloadedFile = writeResponseBodyToDisk(response.body(), downloadedFile);
             return new WebContent(webSitesUrl, downloadedFile.getAbsolutePath(), (response.code() >= 200) && (response.code() < 300));
-        } catch (IOException e) {
+        } catch (Exception e) {
             // No Internet
+            Log.e(TAG, "Can not create file");
             return new WebContent(webSitesUrl);
         }
     }

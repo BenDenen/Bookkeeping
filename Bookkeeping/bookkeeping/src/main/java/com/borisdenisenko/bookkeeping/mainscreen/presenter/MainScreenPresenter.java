@@ -16,4 +16,21 @@ public class MainScreenPresenter extends ViperPresenter<MainViewCallbacks, MainS
     public MainScreenPresenter(DownloadWebContentUserCase downloadWebContentUserCase) {
         mInteractor = downloadWebContentUserCase;
     }
+
+    public void fetchWebSite(String webSiteUrl) {
+        getView().showProgress();
+        mInteractor.execute(
+                // onNext
+                webContentViewModel -> {
+                    getView().showHttpState(webContentViewModel.isError());
+                    getView().hideProgress();
+                },
+                // onError
+                throwable -> {
+                    getView().showError();
+                    getView().hideProgress();
+                },
+                // argument
+                webSiteUrl);
+    }
 }

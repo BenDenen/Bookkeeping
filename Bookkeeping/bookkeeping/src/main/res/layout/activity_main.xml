@@ -5,7 +5,7 @@
 
     <data/>
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/activity_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -13,11 +13,20 @@
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin"
+        android:orientation="vertical"
         tools:context="com.borisdenisenko.bookkeeping.mainscreen.MainActivity">
 
         <TextView
+            android:id="@+id/test_web_site"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Hello World!"/>
-    </RelativeLayout>
+            android:text="http://www.programcreek.com/2012/11/top-10-algorithms-for-coding-interview/"/>
+
+        <TextView
+            android:id="@+id/test_web_site_status"
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="True"/>
+    </LinearLayout>
 </layout>
